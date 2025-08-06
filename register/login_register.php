@@ -1,5 +1,6 @@
 <?php
 session_start();
+// include('config.php');
 require_once 'config.php';
 
 if(isset($_POST["register"])){
@@ -14,10 +15,10 @@ if(isset($_POST["register"])){
         $_SESSION["active_form"] = "register";
     } else {
         $conn->query("INSERT INTO users (name, email, user_password, role) VALUES ('$name', '$email', '$password', '$role')");
-    }
+    };
 
     header("location: newfile.php");
-    exit( );
+    exit();
 }
 
 if(isset($_POST["login"])){
@@ -27,7 +28,7 @@ if(isset($_POST["login"])){
     $result = $conn->query("SELECT * FROM users WHERE email = '$email'");
     if($result->num_rows > 0){
         $user = $result->fetch_assoc();
-        if(password_verify($password, $user["password"])){
+        if(password_verify($password, $user["user_password"])){
             $_SESSION["name"] = $user["name"];
             $_SESSION["email"] = $user["email"];
 
